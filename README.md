@@ -6,9 +6,10 @@ MedReport Bridge 是一个基于 MoonBit 语言开发的医疗报告解读系统
 
 ## 核心功能
 
-- **报告解析**：支持文本、PDF、图片等多种格式的医疗报告输入
+- **报告解析**：支持文本格式的医疗报告输入，自动识别报告类型
 - **智能解读**：接入 Google MedGemma 模型，提供专业的医学解读
 - **通俗化输出**：将专业医学术语转换为通俗易懂的语言
+- **多格式输出**：支持文本、JSON、HTML、Markdown 格式
 
 ## 技术架构
 
@@ -21,11 +22,11 @@ MedReport Bridge 是一个基于 MoonBit 语言开发的医疗报告解读系统
 │  │  (Parser)   │  │  (Gateway)  │  │  (Formatter)   │  │
 │  └─────────────┘  └─────────────┘  └─────────────────┘  │
 ├─────────────────────────────────────────────────────────┤
-│              MoonBit 异步HTTP服务 + 结构化并发            │
+│              MoonBit 核心类型系统                        │
 └─────────────────────────────────────────────────────────┘
                           ↓ HTTP API
 ┌─────────────────────────────────────────────────────────┐
-│              MedGemma 模型服务                           │
+│              MedGemma 模型服务 (Python Mock)             │
 │              (支持本地部署或云端API)                      │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -34,24 +35,50 @@ MedReport Bridge 是一个基于 MoonBit 语言开发的医疗报告解读系统
 
 ### 环境要求
 
-- MoonBit CLI (从 https://www.moonbitlang.cn/download/ 下载)
-- VS Code + MoonBit 插件
+- **MoonBit CLI** - 从 https://www.moonbitlang.cn/download/ 下载
+- **Python 3.8+** - 用于运行 Mock API 服务
+- **VS Code + MoonBit 插件** - 推荐的开发环境
 
 ### 安装与运行
 
+#### 1. 安装 MoonBit
+
+从官网下载并安装 MoonBit CLI：https://www.moonbitlang.cn/download/
+
+#### 2. 构建项目
+
 ```bash
-# 初始化项目
-./init.sh
+# 进入项目目录
+cd moonbitCN
+
+# 检查项目
+moon check
 
 # 构建项目
 moon build
 
 # 运行项目
 moon run cmd/main
+```
 
-# 运行测试
+#### 3. 运行测试
+
+```bash
 moon test
 ```
+
+#### 4. 启动 Mock API 服务（可选）
+
+```bash
+# 安装依赖
+cd mock_api
+pip install -r requirements.txt
+
+# 启动服务
+python medgemma_mock.py
+```
+
+服务将在 http://localhost:8000 启动。
 
 ## 项目结构
 
@@ -61,18 +88,95 @@ medgemma/
 ├── moon.pkg.json          # 包配置
 ├── cmd/
 │   └── main/              # 主程序入口
-│       ├── main.mbt
+│       ├── main.mbt       # MVP主程序
 │       └── moon.pkg.json
 ├── src/
+│   ├── types/             # 类型定义
+│   │   ├── types.mbt      # 核心类型
+│   │   └── types_test.mbt # 类型测试
 │   ├── parser/            # 报告解析模块
+│   │   ├── parser.mbt     # 解析逻辑
+│   │   └── parser_test.mbt
 │   ├── gateway/           # AI服务网关
-│   ├── formatter/         # 结果格式化
-│   └── types/             # 类型定义
-├── tests/                 # 测试文件
+│   │   ├── gateway.mbt    # API集成
+│   │   └── gateway_test.mbt
+│   └── formatter/         # 结果格式化
+│       ├── formatter.mbt  # 格式化输出
+│       └── formatter_test.mbt
+├── examples/              # 示例报告
+│   ├── sample_blood_routine.txt
+│   ├── sample_liver_function.txt
+│   └── sample_kidney_function.txt
+├── mock_api/              # 模拟API服务
+│   ├── medgemma_mock.py
+│   ├── requirements.txt
+│   └── README.md
+├── docs/
+│   └── proposal.md        # 项目申报书
 ├── progress.md            # 开发进度跟踪
 ├── features.json          # 功能列表
+├── CHECKLIST.md           # 获得1500元清单
 └── init.sh                # 初始化脚本
 ```
+
+## MVP 功能演示
+
+当前 MVP 版本支持：
+
+1. **报告类型识别**：自动识别血常规、肝功能、肾功能等报告类型
+2. **指标解析**：提取报告中的关键指标数值
+3. **状态判断**：根据正常范围判断指标是否异常
+4. **通俗化解释**：生成通俗易懂的指标解释
+5. **多格式输出**：支持文本、JSON、Markdown 格式输出
+
+### 示例输出
+
+```
+【健康报告解读】
+═══════════════════════════════════
+
+📋 整体评估：
+各项指标均在正常范围内
+
+📊 详细指标分析：
+───────────────────────────────────
+
+✅ 血红蛋白
+   检测值：145 g/L
+   正常范围：120.0-160.0 g/L
+   解读：血红蛋白是血液中负责携带氧气的蛋白质。处于正常范围内。
+
+💡 建议：
+  • 保持健康的生活方式
+  • 定期体检
+
+═══════════════════════════════════
+📌 重要提示：本解读仅供参考，不作为医疗诊断依据。
+   如有健康问题，请咨询专业医生。
+```
+
+## 支持的报告类型
+
+| 类型 | 识别关键词 | 支持指标 |
+|------|-----------|----------|
+| 血常规 | 血常规、血细胞、白细胞 | 血红蛋白、红细胞、白细胞、血小板等 |
+| 肝功能 | 肝功能、ALT、AST | 谷丙转氨酶、谷草转氨酶、胆红素等 |
+| 肾功能 | 肾功能、肌酐、尿素 | 肌酐、尿素氮、尿酸 |
+| 血糖 | 血糖、葡萄糖 | 空腹血糖 |
+| 血脂 | 血脂、胆固醇 | 总胆固醇、甘油三酯 |
+
+## 开发进度
+
+- [x] 项目结构搭建
+- [x] 核心类型定义
+- [x] 报告解析模块
+- [x] AI服务网关
+- [x] 结果格式化模块
+- [x] MVP主程序
+- [x] Mock API服务
+- [x] 示例报告
+- [ ] HTTP服务端
+- [ ] 完整集成测试
 
 ## 重要声明
 
