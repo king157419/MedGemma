@@ -1,0 +1,10 @@
+{
+  "import": [
+    "king157419/medgemma/src/types",
+    "king157419/medgemma/src/parser",
+    "king157419/medgemma/src/formatter",
+    "king157419/medgemma/src/gateway",
+    "king157419/medgemma/src/analyzer"
+  ],
+  "is-main": true
+}
