@@ -1,0 +1,9 @@
+import {
+  "king157419/medgemma/src/types" @types,
+  "king157419/medgemma/src/parser" @parser,
+  "king157419/medgemma/src/formatter" @formatter,
+}
+
+options(
+  "is-main": true,
+)

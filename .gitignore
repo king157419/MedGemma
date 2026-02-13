@@ -1,6 +1,7 @@
 # MoonBit build artifacts
 target/
 .moon/
+_build/
 
 # IDE
 .vscode/
@@ -19,6 +20,11 @@ Thumbs.db
 
 # Dependencies
 .mooncakes/
+.repos/
 
 # Test coverage
 coverage/
+
+# Temporary files
+*.tmp
+*.temp

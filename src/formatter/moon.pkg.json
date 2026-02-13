@@ -1,8 +1,0 @@
-{
-  "import": [
-    {
-      "path": "king157419/medgemma/src/types",
-      "alias": "types"
-    }
-  ]
-}

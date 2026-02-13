@@ -5,5 +5,5 @@
   "repository": "https://github.com/king157419/MedGemma",
   "license": "Apache-2.0",
   "keywords": ["medical", "healthcare", "AI", "MedGemma", "report-analysis"],
-  "description": "Medical Report Analysis System - 医疗报告解读助手，帮助家属理解患者报告单"
+  "description": "Medical Report Analysis System - 医疗报告解读助手"
 }
