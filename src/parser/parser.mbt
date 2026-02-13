@@ -20,8 +20,14 @@ pub fn detect_report_type(content : String) -> String {
     "blood_glucose"
   } else if lower.contains("甲状腺") || lower.contains("t3") || lower.contains("t4") || lower.contains("tsh") {
     "thyroid"
-  } else if lower.contains("尿常规") || lower.contains("尿蛋白") || lower.contains("尿潜血") {
+  } else if lower.contains("尿常规") || lower.contains("尿蛋白") || lower.contains("尿潜血") || lower.contains("尿糖") {
     "urine_routine"
+  } else if lower.contains("肿瘤") || lower.contains("afp") || lower.contains("cea") || lower.contains("ca125") || lower.contains("ca199") || lower.contains("psa") {
+    "tumor_marker"
+  } else if lower.contains("电解质") || lower.contains("钾") || lower.contains("钠") || lower.contains("氯") || lower.contains("钙") {
+    "electrolyte"
+  } else if lower.contains("心肌酶") || lower.contains("ck") || lower.contains("ck-mb") || lower.contains("肌酸激酶") {
+    "cardiac_enzyme"
   } else {
     "general"
   }
@@ -36,6 +42,9 @@ pub fn get_report_type_name(type_code : String) -> String {
     "blood_glucose" => "血糖检验报告"
     "thyroid" => "甲状腺功能检验报告"
     "urine_routine" => "尿常规检验报告"
+    "tumor_marker" => "肿瘤标志物检验报告"
+    "electrolyte" => "电解质检验报告"
+    "cardiac_enzyme" => "心肌酶谱检验报告"
     _ => "医疗检验报告"
   }
 }
@@ -55,11 +64,18 @@ fn determine_status(name : String, value : String) -> @types.ItemStatus {
     "红细胞" => check_range(num, 4.0, 5.5)
     "红细胞压积" => check_range(num, 37.0, 50.0)
     "平均红细胞体积" => check_range(num, 80.0, 100.0)
+    "中性粒细胞" => check_range(num, 1.8, 6.3)
+    "淋巴细胞" => check_range(num, 1.1, 3.2)
+    "单核细胞" => check_range(num, 0.1, 0.6)
+    "嗜酸性粒细胞" => check_range(num, 0.02, 0.52)
+    "嗜碱性粒细胞" => check_range(num, 0.0, 0.1)
     "谷丙转氨酶" => check_range(num, 0.0, 40.0)
     "谷草转氨酶" => check_range(num, 0.0, 40.0)
     "总胆红素" => check_range(num, 3.4, 17.1)
     "直接胆红素" => check_range(num, 0.0, 6.8)
     "白蛋白" => check_range(num, 35.0, 55.0)
+    "球蛋白" => check_range(num, 20.0, 35.0)
+    "白球比" => check_range(num, 1.2, 2.4)
     "肌酐" => check_range(num, 44.0, 133.0)
     "尿素氮" => check_range(num, 2.9, 8.2)
     "尿酸" => check_range(num, 150.0, 420.0)
@@ -68,10 +84,28 @@ fn determine_status(name : String, value : String) -> @types.ItemStatus {
     "高密度脂蛋白" => check_range_low_only(num, 1.0)
     "低密度脂蛋白" => check_range_high_only(num, 3.4)
     "空腹血糖" => check_range(num, 3.9, 6.1)
+    "餐后血糖" => check_range(num, 3.9, 7.8)
     "糖化血红蛋白" => check_range_high_only(num, 6.0)
     "TSH" => check_range(num, 0.27, 4.2)
     "T3" => check_range(num, 1.3, 3.1)
     "T4" => check_range(num, 66.0, 181.0)
+    "FT3" => check_range(num, 3.1, 6.8)
+    "FT4" => check_range(num, 12.0, 22.0)
+    "AFP" => check_range_high_only(num, 20.0)
+    "CEA" => check_range_high_only(num, 5.0)
+    "CA125" => check_range_high_only(num, 35.0)
+    "CA199" => check_range_high_only(num, 37.0)
+    "PSA" => check_range_high_only(num, 4.0)
+    "CA153" => check_range_high_only(num, 25.0)
+    "钾" => check_range(num, 3.5, 5.5)
+    "钠" => check_range(num, 135.0, 145.0)
+    "氯" => check_range(num, 96.0, 106.0)
+    "钙" => check_range(num, 2.1, 2.6)
+    "磷" => check_range(num, 0.8, 1.6)
+    "镁" => check_range(num, 0.7, 1.1)
+    "CK" => check_range(num, 24.0, 194.0)
+    "CKMB" => check_range_high_only(num, 25.0)
+    "LDH" => check_range(num, 109.0, 245.0)
     _ => @types.ItemStatus::unknown()
   }
 }
@@ -105,11 +139,18 @@ fn get_normal_range(name : String) -> String {
     "红细胞" => "4-5.5 T/L"
     "红细胞压积" => "37-50 %"
     "平均红细胞体积" => "80-100 fL"
+    "中性粒细胞" => "1.8-6.3 G/L"
+    "淋巴细胞" => "1.1-3.2 G/L"
+    "单核细胞" => "0.1-0.6 G/L"
+    "嗜酸性粒细胞" => "0.02-0.52 G/L"
+    "嗜碱性粒细胞" => "0-0.1 G/L"
     "谷丙转氨酶" => "0-40 U/L"
     "谷草转氨酶" => "0-40 U/L"
     "总胆红素" => "3.4-17.1 umol/L"
     "直接胆红素" => "0-6.8 umol/L"
     "白蛋白" => "35-55 g/L"
+    "球蛋白" => "20-35 g/L"
+    "白球比" => "1.2-2.4"
     "肌酐" => "44-133 umol/L"
     "尿素氮" => "2.9-8.2 mmol/L"
     "尿酸" => "150-420 umol/L"
@@ -118,10 +159,28 @@ fn get_normal_range(name : String) -> String {
     "高密度脂蛋白" => ">1.0 mmol/L"
     "低密度脂蛋白" => "<3.4 mmol/L"
     "空腹血糖" => "3.9-6.1 mmol/L"
+    "餐后血糖" => "3.9-7.8 mmol/L"
     "糖化血红蛋白" => "<6.0 %"
     "TSH" => "0.27-4.2 mIU/L"
     "T3" => "1.3-3.1 nmol/L"
     "T4" => "66-181 nmol/L"
+    "FT3" => "3.1-6.8 pmol/L"
+    "FT4" => "12-22 pmol/L"
+    "AFP" => "<20 ng/mL"
+    "CEA" => "<5 ng/mL"
+    "CA125" => "<35 U/mL"
+    "CA199" => "<37 U/mL"
+    "PSA" => "<4 ng/mL"
+    "CA153" => "<25 U/mL"
+    "钾" => "3.5-5.5 mmol/L"
+    "钠" => "135-145 mmol/L"
+    "氯" => "96-106 mmol/L"
+    "钙" => "2.1-2.6 mmol/L"
+    "磷" => "0.8-1.6 mmol/L"
+    "镁" => "0.7-1.1 mmol/L"
+    "CK" => "24-194 U/L"
+    "CKMB" => "<25 U/L"
+    "LDH" => "109-245 U/L"
     _ => ""
   }
 }
@@ -142,6 +201,16 @@ pub fn normalize_item_name(name : String) -> String {
     "红细胞压积"
   } else if lower.contains("平均红细胞体积") || lower.contains("mcv") {
     "平均红细胞体积"
+  } else if lower.contains("中性粒细胞") || lower.contains("neut") {
+    "中性粒细胞"
+  } else if lower.contains("淋巴细胞") || lower.contains("lymp") {
+    "淋巴细胞"
+  } else if lower.contains("单核细胞") || lower.contains("mono") {
+    "单核细胞"
+  } else if lower.contains("嗜酸性粒细胞") || lower.contains("eos") {
+    "嗜酸性粒细胞"
+  } else if lower.contains("嗜碱性粒细胞") || lower.contains("baso") {
+    "嗜碱性粒细胞"
   } else if lower.contains("谷丙") || lower.contains("alt") || lower.contains("丙氨酸") {
     "谷丙转氨酶"
   } else if lower.contains("谷草") || lower.contains("ast") || lower.contains("天门冬") {
@@ -152,6 +221,10 @@ pub fn normalize_item_name(name : String) -> String {
     "直接胆红素"
   } else if lower.contains("白蛋白") && !lower.contains("球") {
     "白蛋白"
+  } else if lower.contains("球蛋白") || lower.contains("glob") {
+    "球蛋白"
+  } else if lower.contains("白球比") || lower.contains("a/g") {
+    "白球比"
   } else if lower.contains("肌酐") || lower.contains("cr") || lower.contains("crea") {
     "肌酐"
   } else if lower.contains("尿素氮") || lower.contains("bun") {
@@ -168,14 +241,50 @@ pub fn normalize_item_name(name : String) -> String {
     "低密度脂蛋白"
   } else if lower.contains("空腹血糖") || lower.contains("fpg") || (lower.contains("血糖") && !lower.contains("餐后")) {
     "空腹血糖"
+  } else if lower.contains("餐后血糖") || lower.contains("2hpg") {
+    "餐后血糖"
   } else if lower.contains("糖化血红蛋白") || lower.contains("hba1c") {
     "糖化血红蛋白"
   } else if lower.contains("tsh") || lower.contains("促甲状腺") {
     "TSH"
-  } else if lower.contains("t3") && !lower.contains("t4") {
+  } else if lower.contains("ft3") || lower.contains("游离t3") {
+    "FT3"
+  } else if lower.contains("ft4") || lower.contains("游离t4") {
+    "FT4"
+  } else if lower.contains("t3") && !lower.contains("t4") && !lower.contains("ft") {
     "T3"
-  } else if lower.contains("t4") && !lower.contains("t3") {
+  } else if lower.contains("t4") && !lower.contains("t3") && !lower.contains("ft") {
     "T4"
+  } else if lower.contains("afp") || lower.contains("甲胎蛋白") {
+    "AFP"
+  } else if lower.contains("cea") || lower.contains("癌胚抗原") {
+    "CEA"
+  } else if lower.contains("ca125") || lower.contains("糖类抗原125") {
+    "CA125"
+  } else if lower.contains("ca199") || lower.contains("糖类抗原199") {
+    "CA199"
+  } else if lower.contains("psa") || lower.contains("前列腺特异抗原") {
+    "PSA"
+  } else if lower.contains("ca153") || lower.contains("糖类抗原153") {
+    "CA153"
+  } else if lower.contains("钾") || lower.contains("k+") {
+    "钾"
+  } else if lower.contains("钠") || lower.contains("na+") {
+    "钠"
+  } else if lower.contains("氯") || lower.contains("cl-") {
+    "氯"
+  } else if lower.contains("钙") || lower.contains("ca2+") {
+    "钙"
+  } else if lower.contains("磷") || lower.contains("p") {
+    "磷"
+  } else if lower.contains("镁") || lower.contains("mg") {
+    "镁"
+  } else if lower.contains("肌酸激酶") || lower.contains("ck") || lower.contains("cpk") {
+    "CK"
+  } else if lower.contains("ck-mb") || lower.contains("肌酸激酶同工酶") {
+    "CKMB"
+  } else if lower.contains("乳酸脱氢酶") || lower.contains("ldh") {
+    "LDH"
   } else {
     trimmed.to_string()
   }

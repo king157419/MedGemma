@@ -14,11 +14,18 @@ pub fn generate_explanation(item_name : String, status : @types.ItemStatus) -> S
     "红细胞" => "红细胞负责运输氧气到全身各组织。" + status_text + "。"
     "红细胞压积" => "红细胞压积反映红细胞在血液中所占体积比例。" + status_text + "。"
     "平均红细胞体积" => "平均红细胞体积反映红细胞的大小。" + status_text + "。"
+    "中性粒细胞" => "中性粒细胞是白细胞的一种，负责吞噬细菌。" + status_text + "。"
+    "淋巴细胞" => "淋巴细胞参与免疫反应，产生抗体。" + status_text + "。"
+    "单核细胞" => "单核细胞参与清除死亡细胞和病原体。" + status_text + "。"
+    "嗜酸性粒细胞" => "嗜酸性粒细胞与过敏反应和寄生虫感染相关。" + status_text + "。"
+    "嗜碱性粒细胞" => "嗜碱性粒细胞参与炎症反应。" + status_text + "。"
     "谷丙转氨酶" => "谷丙转氨酶(ALT)主要存在于肝脏，是肝功能的重要指标。" + status_text + "。"
     "谷草转氨酶" => "谷草转氨酶(AST)存在于肝脏、心脏等组织。" + status_text + "。"
     "总胆红素" => "胆红素是红细胞分解产物，反映肝脏代谢功能。" + status_text + "。"
     "直接胆红素" => "直接胆红素是经肝脏处理后的胆红素。" + status_text + "。"
     "白蛋白" => "白蛋白由肝脏合成，维持血液胶体渗透压。" + status_text + "。"
+    "球蛋白" => "球蛋白参与免疫反应，反映机体免疫功能。" + status_text + "。"
+    "白球比" => "白球比是白蛋白与球蛋白的比值，反映肝脏合成功能。" + status_text + "。"
     "肌酐" => "肌酐是肌肉代谢产物，反映肾脏过滤功能。" + status_text + "。"
     "尿素氮" => "尿素氮是蛋白质代谢产物，反映肾脏排泄功能。" + status_text + "。"
     "尿酸" => "尿酸是嘌呤代谢产物，过高可能导致痛风。" + status_text + "。"
@@ -27,28 +34,42 @@ pub fn generate_explanation(item_name : String, status : @types.ItemStatus) -> S
     "高密度脂蛋白" => "高密度脂蛋白(HDL)被称为\"好胆固醇\"，有助于清除血管中的胆固醇。" + status_text + "。"
     "低密度脂蛋白" => "低密度脂蛋白(LDL)被称为\"坏胆固醇\"，过高会增加心血管疾病风险。" + status_text + "。"
     "空腹血糖" => "空腹血糖反映基础状态下的血糖水平。" + status_text + "。"
+    "餐后血糖" => "餐后血糖反映进食后的血糖调节能力。" + status_text + "。"
     "糖化血红蛋白" => "糖化血红蛋白反映近2-3个月的平均血糖水平。" + status_text + "。"
     "TSH" => "促甲状腺激素(TSH)调节甲状腺功能。" + status_text + "。"
     "T3" => "三碘甲状腺原氨酸(T3)是甲状腺激素，调节新陈代谢。" + status_text + "。"
     "T4" => "甲状腺素(T4)是甲状腺激素，调节新陈代谢。" + status_text + "。"
+    "FT3" => "游离三碘甲状腺原氨酸(FT3)是活性甲状腺激素。" + status_text + "。"
+    "FT4" => "游离甲状腺素(FT4)是活性甲状腺激素。" + status_text + "。"
+    "AFP" => "甲胎蛋白(AFP)是肝癌的肿瘤标志物。" + status_text + "。"
+    "CEA" => "癌胚抗原(CEA)是消化道肿瘤的标志物。" + status_text + "。"
+    "CA125" => "糖类抗原125(CA125)是卵巢癌的标志物。" + status_text + "。"
+    "CA199" => "糖类抗原199(CA199)是胰腺癌、胆管癌的标志物。" + status_text + "。"
+    "PSA" => "前列腺特异抗原(PSA)是前列腺癌的标志物。" + status_text + "。"
+    "CA153" => "糖类抗原153(CA153)是乳腺癌的标志物。" + status_text + "。"
+    "钾" => "钾离子维持心脏和肌肉正常功能。" + status_text + "。"
+    "钠" => "钠离子维持体液平衡和神经传导。" + status_text + "。"
+    "氯" => "氯离子维持酸碱平衡。" + status_text + "。"
+    "钙" => "钙离子参与骨骼代谢和神经肌肉传导。" + status_text + "。"
+    "磷" => "磷参与骨骼代谢和能量代谢。" + status_text + "。"
+    "镁" => "镁离子参与多种酶反应。" + status_text + "。"
+    "CK" => "肌酸激酶(CK)主要存在于心肌和骨骼肌。" + status_text + "。"
+    "CKMB" => "肌酸激酶同工酶(CK-MB)是心肌损伤的特异性指标。" + status_text + "。"
+    "LDH" => "乳酸脱氢酶(LDH)存在于多种组织，反映细胞损伤。" + status_text + "。"
     _ => item_name + status_text + "。"
   }
 }
 
 pub fn get_overall_status(result : @types.AnalysisResult) -> String {
   let mut abnormal_count = 0
-  let mut high_count = 0
-  let mut low_count = 0
   
   for item in result.details {
     match item.status {
       @types.ItemStatus::High => {
         abnormal_count = abnormal_count + 1
-        high_count = high_count + 1
       }
       @types.ItemStatus::Low => {
         abnormal_count = abnormal_count + 1
-        low_count = low_count + 1
       }
       @types.ItemStatus::Abnormal => {
         abnormal_count = abnormal_count + 1
