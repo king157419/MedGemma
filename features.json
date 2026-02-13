@@ -1,0 +1,152 @@
+{
+  "project": "MedReport Bridge",
+  "version": "0.1.0",
+  "features": [
+    {
+      "id": "F001",
+      "category": "core",
+      "description": "项目基础结构搭建",
+      "steps": [
+        "创建 moon.mod.json 配置文件",
+        "创建 moon.pkg.json 包配置",
+        "创建 README.md 文档",
+        "创建 progress.md 进度跟踪",
+        "创建 features.json 功能列表",
+        "创建 init.sh 初始化脚本"
+      ],
+      "passes": true
+    },
+    {
+      "id": "F002",
+      "category": "core",
+      "description": "主程序入口实现",
+      "steps": [
+        "创建 cmd/main 目录结构",
+        "实现 main.mbt 入口函数",
+        "配置 moon.pkg.json 为 main 包"
+      ],
+      "passes": false
+    },
+    {
+      "id": "F003",
+      "category": "parser",
+      "description": "报告解析模块 - 文本输入",
+      "steps": [
+        "创建 src/parser 目录",
+        "实现文本报告解析器",
+        "支持常见医疗报告格式识别",
+        "编写单元测试"
+      ],
+      "passes": false
+    },
+    {
+      "id": "F004",
+      "category": "parser",
+      "description": "报告解析模块 - 图片输入",
+      "steps": [
+        "实现图片格式支持",
+        "集成 OCR 功能（可选）",
+        "编写单元测试"
+      ],
+      "passes": false
+    },
+    {
+      "id": "F005",
+      "category": "parser",
+      "description": "报告解析模块 - PDF输入",
+      "steps": [
+        "实现 PDF 解析功能",
+        "提取文本和图片内容",
+        "编写单元测试"
+      ],
+      "passes": false
+    },
+    {
+      "id": "F006",
+      "category": "gateway",
+      "description": "AI服务网关 - HTTP客户端",
+      "steps": [
+        "创建 src/gateway 目录",
+        "实现异步 HTTP 客户端",
+        "支持 POST 请求发送报告数据",
+        "处理 API 响应",
+        "编写单元测试"
+      ],
+      "passes": false
+    },
+    {
+      "id": "F007",
+      "category": "gateway",
+      "description": "AI服务网关 - MedGemma集成",
+      "steps": [
+        "定义 MedGemma API 接口规范",
+        "实现请求格式化",
+        "实现响应解析",
+        "错误处理和重试机制",
+        "编写单元测试"
+      ],
+      "passes": false
+    },
+    {
+      "id": "F008",
+      "category": "formatter",
+      "description": "结果格式化模块",
+      "steps": [
+        "创建 src/formatter 目录",
+        "实现通俗化输出逻辑",
+        "支持多种输出格式（文本、JSON）",
+        "编写单元测试"
+      ],
+      "passes": false
+    },
+    {
+      "id": "F009",
+      "category": "types",
+      "description": "类型定义模块",
+      "steps": [
+        "创建 src/types 目录",
+        "定义医疗报告数据结构",
+        "定义 API 请求/响应类型",
+        "定义错误类型"
+      ],
+      "passes": false
+    },
+    {
+      "id": "F010",
+      "category": "server",
+      "description": "HTTP服务端",
+      "steps": [
+        "创建 src/server 目录",
+        "实现异步 HTTP 服务器",
+        "定义 REST API 端点",
+        "实现请求路由",
+        "编写集成测试"
+      ],
+      "passes": false
+    },
+    {
+      "id": "F011",
+      "category": "integration",
+      "description": "端到端测试",
+      "steps": [
+        "创建测试用例",
+        "模拟完整用户流程",
+        "验证输出质量"
+      ],
+      "passes": false
+    },
+    {
+      "id": "F012",
+      "category": "docs",
+      "description": "项目申报书",
+      "steps": [
+        "编写项目目标与应用场景",
+        "编写交付物说明",
+        "编写技术路线",
+        "编写风险分析与应对方案",
+        "编写相关研究与实践基础"
+      ],
+      "passes": false
+    }
+  ]
+}
